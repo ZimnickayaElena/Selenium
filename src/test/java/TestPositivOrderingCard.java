@@ -22,7 +22,7 @@ public class TestPositivOrderingCard {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--no-sandbox");
-        //options.addArguments("--headless");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
     }
 
@@ -35,12 +35,12 @@ public class TestPositivOrderingCard {
     @Test
     void shouldReqestDebetCard() {
         driver.get("http://localhost:9999");
-        driver.findElements(By.tagName("input")).get(0).sendKeys("Зимницкая Елена");
-        driver.findElements(By.tagName("input")).get(1).sendKeys("+79376566931");
-        driver.findElement(By.tagName("label")).click();
-        driver.findElement(By.className("button")).click();
+        driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Зимницкая Елена");
+        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+79376566931");
+        driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
+        driver.findElement(By.cssSelector("button.button")).click();
         String expected = "Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.";
-        String actual = driver.findElement(By.tagName("p")).getText().trim();
+        String actual = driver.findElement(By.cssSelector("[data-test-id=order-success]")).getText().trim();
         assertEquals(expected, actual);
     }
 }
